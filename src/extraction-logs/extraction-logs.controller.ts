@@ -1,5 +1,5 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
-import { ExtractionLog, AddExtractionLog } from '../models/extraction-log.dto';
+import { Body, Controller, Delete, Get, Param, Post, ValidationPipe } from '@nestjs/common';
+import { ExtractionLog } from '../models/extraction-log.dto';
 import { ExtractionLogsService } from './extraction-logs.service';
 
 @Controller('extraction-logs')
@@ -23,7 +23,7 @@ export class ExtractionLogsController {
 
     @Post('add-extraction-log')
     public addExtractionLog(
-        @Body() body: AddExtractionLog
+        @Body(ValidationPipe) body: ExtractionLog
     ): Promise<string> {
         const extractionLog = body;
         return this.extractionLogService.addNewExtractionLog(extractionLog);

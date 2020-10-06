@@ -8,6 +8,5 @@ export class LoginDTO {
 
     @IsString()
     @MinLength(8)
-
     password: string;
 }
