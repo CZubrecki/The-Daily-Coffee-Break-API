@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm/dist/common/typeorm.decorators';
 import { Repository } from 'typeorm/repository/Repository';
-import { ExtractionLog } from './extraction-log.dto';
+import { ExtractionLog } from '../models/extraction-log.dto';
 
 @Injectable()
 export class ExtractionLogsService {

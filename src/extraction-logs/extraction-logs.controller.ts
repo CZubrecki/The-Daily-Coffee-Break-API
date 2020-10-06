@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
-import { ExtractionLog, AddExtractionLog } from './extraction-log.dto';
+import { ExtractionLog, AddExtractionLog } from '../models/extraction-log.dto';
 import { ExtractionLogsService } from './extraction-logs.service';
 
 @Controller('extraction-logs')

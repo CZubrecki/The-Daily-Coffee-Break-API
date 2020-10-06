@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
 import * as dotenv from 'dotenv';
 import { ExtractionLogsModule } from './extraction-logs/extraction-logs.module';
 import { TypeOrmModule } from '@nestjs/typeorm/dist/typeorm.module';
@@ -27,7 +26,6 @@ dotenv.config();
       logging: true,
       autoLoadEntities: true,
     }),
-    UsersModule,
     ExtractionLogsModule,
     AuthModule
   ],
