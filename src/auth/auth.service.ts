@@ -27,7 +27,7 @@ export class AuthService {
                 }
             };
         } catch (err) {
-            if (err.code === '23505') {
+            if (err.code === 'ER_DUP_ENTRY') {
                 throw new ConflictException('Email is already in use');
             }
             throw new InternalServerErrorException()
