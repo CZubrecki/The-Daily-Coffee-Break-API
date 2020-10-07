@@ -1,4 +1,5 @@
-import { Body, Controller, Delete, Get, Param, Post, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, UseGuards, ValidationPipe } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { ExtractionLog } from '../models/extraction-log.dto';
 import { ExtractionLogsService } from './extraction-logs.service';
 
@@ -9,12 +10,14 @@ export class ExtractionLogsController {
     ) { }
 
     @Get()
+    @UseGuards(AuthGuard())
     public getExtractionLogs(
     ): Promise<ExtractionLog[]> {
         return this.extractionLogService.getExtractionLogs();
     }
 
     @Get(':id')
+    @UseGuards(AuthGuard())
     public getExtractionLogById(
         @Param() id: string,
     ): Promise<ExtractionLog> {
@@ -22,6 +25,7 @@ export class ExtractionLogsController {
     }
 
     @Post('add-extraction-log')
+    @UseGuards(AuthGuard())
     public addExtractionLog(
         @Body(ValidationPipe) body: ExtractionLog
     ): Promise<string> {
@@ -30,6 +34,7 @@ export class ExtractionLogsController {
     }
 
     @Delete('delete/:id')
+    @UseGuards(AuthGuard())
     public deleteExtractionLog(
         @Param() id: string,
     ): Promise<void> {

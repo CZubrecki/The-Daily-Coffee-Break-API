@@ -10,3 +10,8 @@ export class LoginDTO {
     @MinLength(8)
     password: string;
 }
+
+export interface AuthPayload {
+    email: string;
+}
+

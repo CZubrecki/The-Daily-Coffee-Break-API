@@ -5,7 +5,6 @@ import * as dotenv from 'dotenv';
 import { ExtractionLogsModule } from './extraction-logs/extraction-logs.module';
 import { TypeOrmModule } from '@nestjs/typeorm/dist/typeorm.module';
 import { Connection } from 'typeorm';
-import { ExtractionLogsController } from './extraction-logs/extraction-logs.controller';
 import { AuthModule } from './auth/auth.module';
 
 dotenv.config();
@@ -15,7 +14,7 @@ dotenv.config();
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DB_HOST,
-      port: 3306,
+      port: Number(process.env.DB_PORT),
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB,
@@ -27,7 +26,7 @@ dotenv.config();
       autoLoadEntities: true,
     }),
     ExtractionLogsModule,
-    AuthModule
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
