@@ -1,5 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, UseGuards, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { User } from 'src/auth/user.decorator';
+import { UserEntity } from 'src/entities/user.entity';
 import { ExtractionLog } from '../models/extraction-log.dto';
 import { ExtractionLogsService } from './extraction-logs.service';
 
@@ -9,11 +11,12 @@ export class ExtractionLogsController {
         private extractionLogService: ExtractionLogsService,
     ) { }
 
-    @Get()
+    @Get('')
     @UseGuards(AuthGuard())
-    public getExtractionLogs(
+    public getExtractionLogsByOwnerId(
+        @User() user: UserEntity,
     ): Promise<ExtractionLog[]> {
-        return this.extractionLogService.getExtractionLogs();
+        return this.extractionLogService.getExtractionLogs(user);
     }
 
     @Get(':id')
@@ -27,10 +30,11 @@ export class ExtractionLogsController {
     @Post('add-extraction-log')
     @UseGuards(AuthGuard())
     public addExtractionLog(
+        @User() user: UserEntity,
         @Body(ValidationPipe) body: ExtractionLog
     ): Promise<string> {
         const extractionLog = body;
-        return this.extractionLogService.addNewExtractionLog(extractionLog);
+        return this.extractionLogService.addNewExtractionLog(extractionLog, user);
     }
 
     @Delete('delete/:id')

@@ -1,15 +1,12 @@
-import { IsDate, IsNumber } from "class-validator";
+import { IsDate, IsNumber, IsString, IsUUID } from "class-validator";
 
 export class ExtractionLog {
-    @IsNumber()
+    @IsString()
     weightIn: number;
 
-    @IsNumber()
+    @IsString()
     weightOut: number;
 
-    @IsNumber()
+    @IsString()
     extractionTime: number;
-
-    @IsDate()
-    extractionDate: Date;
 }

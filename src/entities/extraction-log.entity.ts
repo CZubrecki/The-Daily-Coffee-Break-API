@@ -1,9 +1,12 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity()
-export class ExtractionLog {
+@Entity('extraction-logs')
+export class ExtractionLogEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
+
+    @Column()
+    ownerId: string;
 
     @Column('datetime')
     extractionDate: Date;

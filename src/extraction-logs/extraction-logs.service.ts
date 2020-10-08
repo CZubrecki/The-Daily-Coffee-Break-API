@@ -1,33 +1,35 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm/dist/common/typeorm.decorators';
+import { ExtractionLogEntity } from 'src/entities/extraction-log.entity';
+import { UserEntity } from 'src/entities/user.entity';
+import { ExtractionLog } from 'src/models/extraction-log.dto';
 import { Repository } from 'typeorm/repository/Repository';
-import { ExtractionLog } from '../models/extraction-log.dto';
 
 @Injectable()
 export class ExtractionLogsService {
     constructor(
-        @InjectRepository(ExtractionLog)
-        private extractionLogRepository: Repository<ExtractionLog>,
+        @InjectRepository(ExtractionLogEntity)
+        private extractionLogRepository: Repository<ExtractionLogEntity>,
     ) { }
 
-    public async getExtractionLogs(): Promise<ExtractionLog[]> {
+    public async getExtractionLogs(currentUser: UserEntity): Promise<ExtractionLogEntity[]> {
         return await this.extractionLogRepository.find({
+            where: { ownerId: currentUser.id },
             order: {
-                extractionDate: "DESC"
+                extractionDate: 'DESC',
             }
         });
     }
 
-    public async getExtractionLogById(id: string): Promise<ExtractionLog> {
+    public async getExtractionLogById(id: string): Promise<ExtractionLogEntity> {
         return await this.extractionLogRepository.findOne(id);
     }
 
-    public async addNewExtractionLog(extractionLog: ExtractionLog): Promise<any> {
+    public async addNewExtractionLog(extractionLog: ExtractionLog, currentUser: UserEntity): Promise<any> {
         if (!extractionLog.extractionTime || !extractionLog.weightIn || !extractionLog.weightOut) {
             throw new Error('No extraction data submitted');
         }
-        extractionLog.extractionDate = new Date();
-        const { identifiers } = await this.extractionLogRepository.insert(extractionLog);
+        const { identifiers } = await this.extractionLogRepository.insert({ ...extractionLog, extractionDate: new Date(), ownerId: currentUser.id });
         return identifiers[0];
     }
 
