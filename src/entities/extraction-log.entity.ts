@@ -19,4 +19,10 @@ export class ExtractionLogEntity {
 
     @Column()
     weightOut: number;
+
+    @Column({ nullable: true })
+    grindSize: string;
+
+    @Column({ nullable: true })
+    rating: number;
 }

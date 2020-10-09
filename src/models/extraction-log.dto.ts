@@ -1,4 +1,4 @@
-import { IsDate, IsNumber, IsString, IsUUID } from "class-validator";
+import { IsDate, IsNumber, IsOptional, IsString, IsUUID } from "class-validator";
 
 export class ExtractionLog {
     @IsString()
@@ -9,4 +9,11 @@ export class ExtractionLog {
 
     @IsString()
     extractionTime: number;
+
+    @IsOptional()
+    @IsString()
+    grindSize?: string;
+
+    @IsOptional()
+    rating?: number;
 }
