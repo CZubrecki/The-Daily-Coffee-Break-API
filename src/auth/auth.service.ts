@@ -1,9 +1,10 @@
-import { ConflictException, Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, HttpException, HttpStatus, Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 import { UserEntity } from 'src/entities/user.entity';
 import { LoginDTO } from 'src/models/user.model';
 import { InjectRepository } from '@nestjs/typeorm/dist/common/typeorm.decorators';
 import { Repository } from 'typeorm/repository/Repository';
 import { JwtService } from '@nestjs/jwt'
+import * as _ from 'lodash';
 
 @Injectable()
 export class AuthService {
@@ -35,22 +36,21 @@ export class AuthService {
     }
 
     public async login({ email, password }: LoginDTO) {
-        try {
-            const user = await this.userRepository.findOne({ where: { email } })
-            const isValid = await user.comparePassword(password);
-            if (!isValid) {
-                throw new UnauthorizedException('Invalid Credentials');
-            }
-            const payload = { email: user.email };
-            const token = this.jwtService.sign(payload);
-            return {
-                user: {
-                    ...user.toJSON(),
-                    token,
-                }
-            };
-        } catch (err) {
-            throw new InternalServerErrorException();
+        const user = await this.userRepository.findOne({ where: { email } })
+        if (_.isNil(user)) {
+            throw new HttpException('User not found', HttpStatus.NOT_FOUND);
         }
+        const isValid = await user.comparePassword(password);
+        if (!isValid) {
+            throw new HttpException('Incorrect Password', HttpStatus.UNAUTHORIZED);
+        }
+        const payload = { email: user.email };
+        const token = this.jwtService.sign(payload);
+        return {
+            user: {
+                ...user.toJSON(),
+                token,
+            }
+        };
     }
 }
