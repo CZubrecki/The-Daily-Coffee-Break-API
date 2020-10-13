@@ -27,6 +27,9 @@ export class ExtractionLogEntity {
     rating: number;
 
     @Column({ nullable: true })
+    shotTemperature: number;
+
+    @Column({ nullable: true })
     beans: string;
 
     @Column({ nullable: true })
