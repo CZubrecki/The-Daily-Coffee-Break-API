@@ -25,4 +25,10 @@ export class ExtractionLogEntity {
 
     @Column({ nullable: true })
     rating: number;
+
+    @Column({ nullable: true })
+    beans: string;
+
+    @Column({ nullable: true })
+    notes: string;
 }
