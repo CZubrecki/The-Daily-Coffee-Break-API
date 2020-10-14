@@ -38,13 +38,13 @@ export class ExtractionLogsController {
         return this.extractionLogService.addNewExtractionLog(extractionLog, user);
     }
 
-    @Post('update-extraction-log')
+    @Post('update-extraction-log/:id')
     @UseGuards(AuthGuard())
     public updateExtractionLog(
+        @Param() id: string
         @Body(ValidationPipe) body: UpdateExtractionLogDTO,
     ): Promise<string> {
-        console.log(body);
-        return this.extractionLogService.updateExtractionLog(body);
+        return this.extractionLogService.updateExtractionLog(id, body);
     }
 
     @Delete('delete/:id')

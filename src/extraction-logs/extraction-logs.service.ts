@@ -33,7 +33,7 @@ export class ExtractionLogsService {
         return identifiers[0];
     }
 
-    public async updateExtractionLog({ id, rating, notes }: UpdateExtractionLogDTO): Promise<any> {
+    public async updateExtractionLog(id: string, { rating, notes }: UpdateExtractionLogDTO): Promise<any> {
         let extractionLog = await this.extractionLogRepository.findOne(id);
 
         if (rating) {

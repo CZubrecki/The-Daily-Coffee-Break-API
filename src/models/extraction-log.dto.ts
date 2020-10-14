@@ -19,9 +19,6 @@ export class ExtractionLog {
 }
 
 export class UpdateExtractionLogDTO {
-    @IsString()
-    id: string;
-
     @IsOptional()
     rating?: number;
 
