@@ -41,7 +41,7 @@ export class ExtractionLogsController {
     @Post('update-extraction-log/:id')
     @UseGuards(AuthGuard())
     public updateExtractionLog(
-        @Param() id: string
+        @Param() id: string,
         @Body(ValidationPipe) body: UpdateExtractionLogDTO,
     ): Promise<string> {
         return this.extractionLogService.updateExtractionLog(id, body);
