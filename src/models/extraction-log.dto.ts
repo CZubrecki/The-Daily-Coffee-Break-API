@@ -17,3 +17,14 @@ export class ExtractionLog {
     @IsOptional()
     rating?: number;
 }
+
+export class UpdateExtractionLogDTO {
+    @IsString()
+    id: string;
+
+    @IsOptional()
+    rating?: number;
+
+    @IsOptional()
+    notes?: string;
+}
