@@ -39,10 +39,7 @@ export class ExtractionLogsService {
         if (rating) {
             extractionLog.rating = rating;
         }
-
-        if (notes) {
-            extractionLog.notes = notes;
-        }
+        extractionLog.notes = notes;
 
         const updatedExtractionLog = await this.extractionLogRepository.save(extractionLog);
         return updatedExtractionLog.id;
