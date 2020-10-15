@@ -36,12 +36,10 @@ export class ExtractionLogsService {
     public async updateExtractionLog(id: string, { rating, notes }: UpdateExtractionLogDTO): Promise<any> {
         let extractionLog = await this.extractionLogRepository.findOne(id);
 
-        if (rating) {
-            extractionLog.rating = rating;
-        }
+        extractionLog.rating = rating;
         extractionLog.notes = notes;
-
         const updatedExtractionLog = await this.extractionLogRepository.save(extractionLog);
+
         return updatedExtractionLog.id;
     }
 
