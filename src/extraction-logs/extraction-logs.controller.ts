@@ -1,9 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { User } from 'src/auth/user.decorator';
 import { ExtractionLogEntity } from 'src/entities/extraction-log.entity';
 import { UserEntity } from 'src/entities/user.entity';
-import { ExtractionLog, UpdateExtractionLogDTO } from '../models/extraction-log.dto';
+import { ExtractionLog, ExtractionLogFilter, UpdateExtractionLogDTO } from '../models/extraction-log.dto';
 import { ExtractionLogsService } from './extraction-logs.service';
 
 @Controller('extraction-logs')
@@ -16,8 +16,18 @@ export class ExtractionLogsController {
     @UseGuards(AuthGuard())
     public getExtractionLogsByOwnerId(
         @User() user: UserEntity,
+        @Query('rating') rating?,
+        @Query('weightInFilter') weightInFilter?,
+        @Query('weightOutFilter') weightOutFilter?,
+        @Query('extractionFilter') extractionFilter?,
     ): Promise<ExtractionLogEntity[]> {
-        return this.extractionLogService.getExtractionLogs(user);
+        const filter: ExtractionLogFilter = {
+            rating,
+            weightInFilter,
+            weightOutFilter,
+            extractionFilter
+        };
+        return this.extractionLogService.getExtractionLogs(user, filter);
     }
 
     @Get(':id')

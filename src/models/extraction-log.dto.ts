@@ -25,3 +25,17 @@ export class UpdateExtractionLogDTO {
     @IsOptional()
     notes?: string;
 }
+
+export class ExtractionLogFilter {
+    @IsOptional()
+    rating?: any;
+
+    @IsOptional()
+    weightInFilter?: any;
+
+    @IsOptional()
+    weightOutFilter?: any;
+
+    @IsOptional()
+    extractionFilter?: any;
+}

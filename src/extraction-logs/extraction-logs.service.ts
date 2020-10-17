@@ -2,8 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm/dist/common/typeorm.decorators';
 import { ExtractionLogEntity } from 'src/entities/extraction-log.entity';
 import { UserEntity } from 'src/entities/user.entity';
-import { ExtractionLog, UpdateExtractionLogDTO } from 'src/models/extraction-log.dto';
+import { ExtractionLog, ExtractionLogFilter, UpdateExtractionLogDTO } from 'src/models/extraction-log.dto';
 import { Repository } from 'typeorm/repository/Repository';
+import * as _ from 'lodash';
+import { Between } from 'typeorm';
 
 @Injectable()
 export class ExtractionLogsService {
@@ -12,9 +14,32 @@ export class ExtractionLogsService {
         private extractionLogRepository: Repository<ExtractionLogEntity>,
     ) { }
 
-    public async getExtractionLogs(currentUser: UserEntity): Promise<ExtractionLogEntity[]> {
+    public async getExtractionLogs(currentUser: UserEntity, filter?: ExtractionLogFilter): Promise<ExtractionLogEntity[]> {
+        const filters = {
+            ownerId: currentUser.id
+        };
+
+        if (filter.rating !== 'undefined') {
+            filters['rating'] = filter.rating;
+        }
+
+        if (filter.extractionFilter !== 'undefined') {
+            const extractionFilter = filter.extractionFilter.split(',').map((value: any) => +value);
+            filters['extractionTime'] = Between(extractionFilter[0], extractionFilter[1]);
+        }
+
+        if (filter.weightInFilter !== 'undefined') {
+            const weightInFilter = filter.weightInFilter.split(',').map((value: any) => +value);
+            filters['weightIn'] = Between(weightInFilter[0], weightInFilter[1]);
+        }
+
+        if (filter.weightOutFilter !== 'undefined') {
+            const weightOutFilter = filter.weightOutFilter.split(',').map((value: any) => +value);
+            filters['weightOut'] = Between(weightOutFilter[0], weightOutFilter[1]);
+        }
+
         return await this.extractionLogRepository.find({
-            where: { ownerId: currentUser.id },
+            where: filters,
             order: {
                 extractionDate: 'DESC',
             }
