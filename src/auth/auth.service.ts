@@ -1,6 +1,6 @@
 import { ConflictException, HttpException, HttpStatus, Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 import { UserEntity } from 'src/entities/user.entity';
-import { LoginDTO } from 'src/models/user.model';
+import { LoginDTO, UpdateEmail } from 'src/models/user.model';
 import { InjectRepository } from '@nestjs/typeorm/dist/common/typeorm.decorators';
 import { Repository } from 'typeorm/repository/Repository';
 import { JwtService } from '@nestjs/jwt'
@@ -51,5 +51,17 @@ export class AuthService {
                 token,
             }
         };
+    }
+
+    public async updateEmail({ email, updatedEmail, password }: UpdateEmail) {
+        const user = await this.userRepository.findOne({ where: { email } })
+        const isValid = await user.comparePassword(password);
+        if (!isValid) {
+            throw new HttpException('Incorrect Password', HttpStatus.UNAUTHORIZED);
+        }
+        user.email = updatedEmail;
+        const updatedUser = await this.userRepository.save(user);
+
+        return updatedUser;
     }
 }

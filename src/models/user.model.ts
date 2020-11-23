@@ -11,6 +11,12 @@ export class LoginDTO {
     password: string;
 }
 
+export class UpdateEmail {
+    email: string;
+    updatedEmail: string;
+    password: string;
+}
+
 export interface AuthPayload {
     email: string;
 }
