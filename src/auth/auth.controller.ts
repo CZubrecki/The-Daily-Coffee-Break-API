@@ -23,4 +23,10 @@ export class AuthController {
     updateEmail(@Body() data: UpdateEmail): Promise<any> {
         return this.authService.updateEmail(data);
     }
+
+    @Post('/verify-token')
+    verifyJwt(@Body() data: any) {
+        const token = data.token
+        return this.authService.validToken(token);
+    }
 }

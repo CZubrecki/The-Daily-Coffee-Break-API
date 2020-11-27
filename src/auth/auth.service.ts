@@ -64,4 +64,14 @@ export class AuthService {
 
         return updatedUser;
     }
+
+    public async validToken(token: string) {
+        try {
+            const value = await this.jwtService.verify(token);
+            return true
+        } catch (err) {
+            console.log(err);
+        }
+        return false;
+    }
 }
