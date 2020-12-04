@@ -83,8 +83,8 @@ export class ExtractionLogsService {
         await worker.loadLanguage('eng');
         await worker.initialize('eng');
         const { data: { text } } = await worker.recognize(body.uri);
-        console.log(text);
         await worker.terminate();
+        return text;
     }
 
 
