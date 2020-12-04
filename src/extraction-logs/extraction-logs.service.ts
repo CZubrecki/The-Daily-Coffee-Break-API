@@ -6,6 +6,7 @@ import { ExtractionLog, ExtractionLogFilter, UpdateExtractionLogDTO } from 'src/
 import { Repository } from 'typeorm/repository/Repository';
 import * as _ from 'lodash';
 import { Between } from 'typeorm';
+import * as Tesseract from 'tesseract.js'
 
 @Injectable()
 export class ExtractionLogsService {
@@ -71,6 +72,19 @@ export class ExtractionLogsService {
     public async deleteExtractionLog(id: string): Promise<void> {
         await this.extractionLogRepository.delete(id);
         return;
+    }
+
+    public async processImage(body: any) {
+        const worker = Tesseract.createWorker({
+            logger: m => console.log(m)
+        });
+
+        await worker.load();
+        await worker.loadLanguage('eng');
+        await worker.initialize('eng');
+        const { data: { text } } = await worker.recognize(body.uri);
+        console.log(text);
+        await worker.terminate();
     }
 
 

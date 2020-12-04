@@ -65,4 +65,11 @@ export class ExtractionLogsController {
         this.extractionLogService.deleteExtractionLog(id);
         return;
     }
+
+    @Post('processImage')
+    @UseGuards(AuthGuard())
+    public processImage(@Body() body: any): Promise<any> {
+        console.log(body);
+        return this.extractionLogService.processImage(body);
+    }
 }
