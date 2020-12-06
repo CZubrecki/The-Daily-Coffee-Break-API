@@ -8,11 +8,12 @@ export class PhotoService {
 
     public async processImage(data: any): Promise<void> {
         const worker = Tesseract.createWorker({});
+        const imageBuffer = Buffer.from(data.base64, "base64");
 
         await worker.load();
         await worker.loadLanguage('eng');
         await worker.initialize('eng');
-        const { data: { text } } = await worker.recognize(data.uri);
+        const { data: { text } } = await worker.recognize(imageBuffer);
         console.log('--------', text);
         await worker.terminate();
     }

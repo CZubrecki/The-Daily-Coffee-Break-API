@@ -15,6 +15,6 @@ export class PhotoController {
     processImage(
         @Body() body: any
     ) {
-        return this.photoService.processImage(body.file);
+        return this.photoService.processImage(body);
     }
 }
