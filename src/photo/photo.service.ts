@@ -8,6 +8,7 @@ export class PhotoService {
 
     public async processImage(data: any): Promise<void> {
         const worker = Tesseract.createWorker({});
+        data = await data.parse();
         const imageBuffer = Buffer.from(data.base64, "base64");
 
         await worker.load();
