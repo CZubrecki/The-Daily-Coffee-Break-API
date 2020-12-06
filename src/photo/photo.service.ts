@@ -11,7 +11,8 @@ export class PhotoService {
             logger: m => console.log(m)
         });
 
-        const imageBuffer = Buffer.from(data.base64, "base64");
+        const base64String = 'data:image/png;base64,' + data.base64;
+        const imageBuffer = Buffer.from(base64String, "base64")
 
         await worker.load();
         await worker.loadLanguage('eng');
