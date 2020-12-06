@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import { LoginDTO, UpdateEmail } from 'src/models/user.model';
 import { AuthService } from './auth.service';
 
@@ -25,7 +25,7 @@ export class AuthController {
     }
 
     @Post('/verify-token')
-    verifyJwt(@Body() data: any) {
+    verifyJwt(@Body() data: any): Promise<any> {
         const token = data.token
         return this.authService.validToken(token);
     }
