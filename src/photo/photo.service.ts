@@ -18,7 +18,7 @@ export class PhotoService {
         await worker.initialize('eng');
         console.log('WE ARE HERE');
         const { data: { text } } = await worker.recognize(imageBuffer);
-        console.log('--------', text);
+        console.log('--------', data);
         await worker.terminate();
         return text;
     }
